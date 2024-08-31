@@ -10,7 +10,7 @@ Follow the steps below to get started with the mysqlclient_example project:
 
 - [Ensure you have all Requirements](#requirements)
 - [Set Up MySQL Server](#setup-mysql-server)
-- [Download and Configure the Project](#download-and-configure)
+- [Download and Configure the Project](#download)
 - [Run Tests](#run-tests)
 
 ## Requirements
