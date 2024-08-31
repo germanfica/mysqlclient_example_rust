@@ -3,6 +3,9 @@ use dotenv::dotenv;
 use std::ffi::{CStr, CString};
 use std::{env, ptr};
 
+mod color;
+mod version_utilis;
+
 fn main() {
     // Load environment varibles from .env file
     dotenv().ok();
@@ -17,11 +20,18 @@ fn main() {
         .parse()
         .expect("DB_PORT must be a number");
 
+    version_utilis::print_mysql_client_env();
+    version_utilis::print_rust_versions();
+
     unsafe {
         // Init MySQL
         let mysql = ffi::mysql_init(ptr::null_mut());
         if mysql.is_null() {
-            eprintln!("Error initializing MySQL");
+            eprintln!(
+                "{}Error initializing MySQL{}",
+                color::error_setup_color(),
+                color::normal_color()
+            );
             return;
         }
 
@@ -45,14 +55,20 @@ fn main() {
         .is_null()
         {
             eprintln!(
-                "Error connecting to the database: {}",
-                CStr::from_ptr(ffi::mysql_error(mysql)).to_str().unwrap()
+                "{}Error connecting to the database: {}{}",
+                color::error_color(),
+                CStr::from_ptr(ffi::mysql_error(mysql)).to_str().unwrap(),
+                color::normal_color()
             );
             ffi::mysql_close(mysql);
             return;
         }
 
-        println!("Successfully connected to the database!");
+        println!(
+            "\n{}Successfully connected to the database!{}",
+            color::success_color(),
+            color::normal_color()
+        );
 
         // Close connection
         ffi::mysql_close(mysql);
