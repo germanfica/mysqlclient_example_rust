@@ -4,7 +4,7 @@ use std::ffi::{CStr, CString};
 use std::{env, ptr};
 
 mod color;
-mod version_utilis;
+mod version_utils;
 
 fn main() {
     // Load environment varibles from .env file
@@ -20,8 +20,8 @@ fn main() {
         .parse()
         .expect("DB_PORT must be a number");
 
-    version_utilis::print_mysql_client_env();
-    version_utilis::print_rust_versions();
+    version_utils::print_mysql_client_env();
+    version_utils::print_rust_versions();
 
     unsafe {
         // Init MySQL
