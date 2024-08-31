@@ -18,7 +18,7 @@ Follow the steps below to get started with the mysqlclient_example project:
 Make sure you have the following installed before starting:
 
 - [MySQL Server](https://dev.mysql.com/downloads/mysql/) (version 8.0.17 recommended)
-- Basic knowledge of Rust and Diesel ORM
+- Basic knowledge of Rust
 - Windows 10 Pro (Tested on version 22H2, OS build: 19045.4780)
 - [Rust](https://www.rust-lang.org/) (cargo 1.80.1 or newer)
 
