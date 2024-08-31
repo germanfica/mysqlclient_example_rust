@@ -4,6 +4,57 @@ The purpose of this repository is to provide quick code for connection using MyS
 
 ![WindowsTerminal_ipG01pUBY7](https://github.com/user-attachments/assets/bdeec1f4-1001-4651-b421-8ef9efb38f37)
 
+## Getting Started
+
+Follow the steps below to get started with the mysqlclient_example project:
+
+- [Ensure you have all Requirements](#requirements)
+- [Set Up MySQL Server](#setup-mysql-server)
+- [Download and Configure the Project](#download-and-configure)
+- [Run Tests](#run-tests)
+
+## Requirements
+
+Make sure you have the following installed before starting:
+
+- [MySQL Server](https://dev.mysql.com/downloads/mysql/) (version 8.0.17 recommended)
+- Basic knowledge of Rust and Diesel ORM
+- Windows 10 Pro (Tested on version 22H2, OS build: 19045.4780)
+- [Rust](https://www.rust-lang.org/) (cargo 1.80.1 or newer)
+
+## Download
+
+You can get access to Red Runner source code by using one of the following ways:
+- :sparkles: Download Source Code
+- :fire: Clone the repository locally:
+```bash
+git clone https://github.com/germanfica/mysqlclient_example_rust.git
+```
+
+## Setup MySQL Server
+
+To configure MySQL Server on your Windows 10 machine, follow these steps:
+
+1. Download and install MySQL Server version 8.0.17 from the official MySQL website.
+2. After installation, add the following environment variables:
+   - `MYSQLCLIENT_LIB_DIR=C:\mysql-8.0.17-winx64\lib`
+   - `MYSQLCLIENT_VERSION=8.0.17`
+3. Ensure that these environment variables are correctly set by running:
+   ```bash
+   echo %MYSQLCLIENT_LIB_DIR%
+   echo %MYSQLCLIENT_VERSION%
+   ```
+
+## Run Tests
+
+To run the tests:
+
+1. Ensure MySQL Server is running and accessible.
+2. In the project directory, execute:
+   ```bash
+   cargo test
+   ```
+3. If everything is set up correctly, the tests should pass successfully.
 
 ## Tested MySQL versions
 
