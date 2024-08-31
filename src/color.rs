@@ -64,3 +64,33 @@ pub fn error_setup_color() -> &'static str {
 pub fn normal_color() -> &'static str {
     "\x1b[0m" // Reset to default color
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_error_color() {
+        assert_eq!(error_color(), "\x1b[1;31m");
+    }
+
+    #[test]
+    fn test_success_color() {
+        assert_eq!(success_color(), "\x1b[1;32m");
+    }
+
+    #[test]
+    fn test_warning_color() {
+        assert_eq!(warning_color(), "\x1b[1;33m");
+    }
+
+    #[test]
+    fn test_error_setup_color() {
+        assert_eq!(error_setup_color(), "\x1b[101;37m");
+    }
+
+    #[test]
+    fn test_normal_color() {
+        assert_eq!(normal_color(), "\x1b[0m");
+    }
+}
