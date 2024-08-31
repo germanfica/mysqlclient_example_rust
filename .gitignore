@@ -1,2 +1,4 @@
 /target
 .env
+CombineStagedGitDiffToOutput.ps1
+output.txt
