@@ -7,4 +7,6 @@ The purpose of this repository is to provide quick code for connection using MyS
 ## Links
 
 - https://diesel.rs/
+- https://github.com/diesel-rs/diesel
 - https://crates.io/crates/mysqlclient-sys
+- https://github.com/sgrif/mysqlclient-sys
