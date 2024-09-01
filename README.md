@@ -92,7 +92,7 @@ The error is unknown, but it is suspected that there may be a bug in the `mysqlc
 ![WindowsTerminal_tJwkxZMmCu](https://github.com/user-attachments/assets/2df34b04-14d5-4971-9552-5a2bb5c799e0)
 
 ```bash
-error: process didn't exit successfully: `target\debug\my_login_app_api.exe` (exit code: 0xc0000135, STATUS_DLL_NOT_FOUND)
+error: process didn't exit successfully: `target\debug\mysqlclient_example.exe` (exit code: 0xc0000135, STATUS_DLL_NOT_FOUND)
 ```
 
 ### Testing Environment
