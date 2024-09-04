@@ -1,9 +1,11 @@
 extern crate mysqlclient_sys as ffi;
 use dotenv::dotenv;
+use library_checker::{check_libraries, check_library};
 use std::ffi::{CStr, CString};
 use std::{env, ptr};
 
 mod color;
+mod library_checker;
 mod version_utils;
 
 fn main() {
@@ -22,6 +24,10 @@ fn main() {
 
     version_utils::print_mysql_client_env();
     version_utils::print_rust_versions();
+
+    // check_library("libcrypto-3-x64.dll");
+    let libraries = ["libcrypto-3-x64.dll", "libssl-3-x64.dll"];
+    check_libraries(&libraries);
 
     unsafe {
         // Init MySQL
