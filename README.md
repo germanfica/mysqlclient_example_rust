@@ -56,42 +56,121 @@ To run the tests:
    ```
 3. If everything is set up correctly, the tests should pass successfully.
 
-## Tested MySQL versions
+## `mysqlclient-sys` Runtime Error (exit code: 0xc0000135, STATUS_DLL_NOT_FOUND)
 
-C API (libmysqlclient) is included in MySQL 8.0.
+If you encounter the error:
 
-- 8.0.0 (works). MD5: `c6d3e54f4eab46d75a845e15f3023d0a`
-
-- 8.0.11 (works). MD5: `0b4efe256a28cd391bf057d4c61ade09`
-
-    ```
-    libmysql.dll
-    libmysql.lib
-    ```
-
-- 8.0.16 (works). MD5: `1a6646b047425cc1150b8a88751e721b`
-
-- 8.0.17 (works). MD5: `d120bb0513c2ccfaeee74b0e99217bb7`
-
-- 8.0.18 (not working). MD5: `3c1fc0bc3368639d968fbe5bf8afa23d`
-
-- 8.0.19 (not working). MD5: `f52c52e7b499958acc5f08ce0a869cab`
-
-- 8.0.20 (not working). MD5: `1335fe593b055686823fd69c7ef035f5`
-
-- 8.0.30 (not working). MD5: `d17b3d4bab676a2c365b82f65c9a5374`
-
-- 8.0.37 (not working). MD5: `936fc116f2dd865dc26ef3d71f5730e8`
-
-- 8.4.2 LTS (not working) - Windows (x86, 64-bit), MSI Installer	- (mysql-8.4.2-winx64.msi)	MD5: `888dc0f177ce11ed461294ff797824c7`
-
-### Output error
-
-The error is unknown, but it is suspected that there may be a bug in the `mysqlclient-sys` binding. In any case, no tests have been done to prove it.
+![WindowsTerminal_tJwkxZMmCu](https://github.com/user-attachments/assets/2df34b04-14d5-4971-9552-5a2bb5c799e0)
 
 ```bash
-error: process didn't exit successfully: `target\debug\my_login_app_api.exe` (exit code: 0xc0000135, STATUS_DLL_NOT_FOUND)
+error: process didn't exit successfully: `target\debug\mysqlclient_example.exe` (exit code: 0xc0000135, STATUS_DLL_NOT_FOUND)
 ```
+
+This indicates a missing DLL issue. Use [Dependency Walker](https://www.dependencywalker.com/) to identify the missing DLLs. In this case, the problem was missing `LIBCRYPTO-3-X64.DLL` and `LIBSSL-3-X64.DLL` from the MySQL bin directory.
+
+### Solution
+
+Add the MySQL bin directory to your PATH environment variable. For example, with MySQL version 8.0.36:
+
+```bash
+PATH=C:\mysql-8.0.36-winx64\bin
+MYSQLCLIENT_LIB_DIR=C:\mysql-8.0.36-winx64\lib
+MYSQLCLIENT_VERSION=8.0.36
+```
+
+Ensure these DLLs are present in the bin directory, or copy them into your project's target folder.
+
+### Explanation of Dependency Walker
+
+Dependency Walker is a tool that inspects and identifies all the DLLs that an executable depends on. It helps by:
+
+1. **Identifying Missing DLLs:** If your application fails to run due to missing dependencies, Dependency Walker shows you exactly which DLLs are missing.
+2. **Tracing Load Issues:** You can see how the system tries to load each DLL, which helps pinpoint issues related to PATH configuration or version conflicts.
+3. **Fixing Environment Setup:** Once you've identified missing DLLs (such as `LIBCRYPTO-3-X64.DLL` and `LIBSSL-3-X64.DLL`), you can update the PATH environment variable to include the correct directories or manually add the DLLs to the necessary locations.
+
+This tool was essential in resolving the missing dependency issue I faced in this project, allowing to ensure the proper setup of the environment variables and dependencies.
+
+## Tested MySQL versions
+
+- MySQL 8.0.18 (works).
+  - MD5: `3c1fc0bc3368639d968fbe5bf8afa23d`
+  ```bash
+  Path=C:\mysql-8.0.18-winx64\bin
+  MYSQLCLIENT_LIB_DIR=C:\mysql-8.0.18-winx64\lib
+  MYSQLCLIENT_VERSION=8.0.18
+  ```
+
+- MySQL 8.0.19 (works).
+  - MD5: `f52c52e7b499958acc5f08ce0a869cab`
+  ```bash
+  Path=C:\mysql-8.0.19-winx64\bin
+  MYSQLCLIENT_LIB_DIR=C:\mysql-8.0.19-winx64\lib
+  MYSQLCLIENT_VERSION=8.0.19
+  ```
+
+- MySQL 8.0.20 (works).
+  - MD5: `1335fe593b055686823fd69c7ef035f5`
+  ```bash
+  Path=C:\mysql-8.0.20-winx64\bin
+  MYSQLCLIENT_LIB_DIR=C:\mysql-8.0.20-winx64\lib
+  MYSQLCLIENT_VERSION=8.0.20
+  ```
+
+- MySQL 8.0.30 (works).
+  - MD5: `d17b3d4bab676a2c365b82f65c9a5374`
+  ```bash
+  Path=C:\mysql-8.0.30-winx64\bin
+  MYSQLCLIENT_LIB_DIR=C:\mysql-8.0.30-winx64\lib
+  MYSQLCLIENT_VERSION=8.0.30
+  ```
+
+- MySQL 8.0.36 (works).
+  - MD5: `a2f95f3625440e61d9012c5e2364bd79`
+  ```bash
+  Path=C:\mysql-8.0.36-winx64\bin
+  MYSQLCLIENT_LIB_DIR=C:\mysql-8.0.36-winx64\lib
+  MYSQLCLIENT_VERSION=8.0.36
+  ```
+
+- MySQL 8.0.37 (works).
+  - MD5: `936fc116f2dd865dc26ef3d71f5730e8`
+  ```bash
+  Path=C:\mysql-8.0.37-winx64\bin
+  MYSQLCLIENT_LIB_DIR=C:\mysql-8.0.37-winx64\lib
+  MYSQLCLIENT_VERSION=8.0.37
+  ```
+
+- MySQL 8.0.39 (works).
+  - MD5: `bfba039694efb85916830cf9dc65ccc8`
+  ```bash
+  Path=C:\mysql-8.0.39-winx64\bin
+  MYSQLCLIENT_LIB_DIR=C:\mysql-8.0.39-winx64\lib
+  MYSQLCLIENT_VERSION=8.0.39
+  ```
+
+- MySQL 8.4.0 (works).
+  - MD5: `23fa293db80b5d49f9e97d34c2037a82`
+  ```bash
+  Path=C:\mysql-8.4.0-winx64\bin
+  MYSQLCLIENT_LIB_DIR=C:\mysql-8.4.0-winx64\lib
+  MYSQLCLIENT_VERSION=8.4.0
+  ```
+
+- MySQL 8.4.2 (works).
+  - MD5: `9aad84967d8a94c390e76366ca85ec3c`
+  ```bash
+  Path=C:\mysql-8.4.2-winx64\bin
+  MYSQLCLIENT_LIB_DIR=C:\mysql-8.4.2-winx64\lib
+  MYSQLCLIENT_VERSION=8.4.2
+  ```
+
+- MySQL 9.0.1 (works).
+  - MD5: `bfba039694efb85916830cf9dc65ccc8`
+  ```bash
+  Path=C:\mysql-8.4.2-winx64\bin
+  MYSQLCLIENT_LIB_DIR=C:\mysql-8.4.2-winx64\lib
+  MYSQLCLIENT_VERSION=8.4.2
+  ```
 
 ### Testing Environment
 
@@ -109,3 +188,4 @@ error: process didn't exit successfully: `target\debug\my_login_app_api.exe` (ex
 - https://github.com/diesel-rs/diesel
 - https://crates.io/crates/mysqlclient-sys
 - https://github.com/sgrif/mysqlclient-sys
+- https://github.com/sgrif/mysqlclient-sys/issues/57
