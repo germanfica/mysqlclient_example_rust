@@ -21,13 +21,23 @@ fn main() {
         .expect("DB_PORT must be set")
         .parse()
         .expect("DB_PORT must be a number");
+    let mysql_version = env::var("MYSQLCLIENT_VERSION").expect("MYSQLCLIENT_VERSION must be set");
 
     version_utils::print_mysql_client_env();
     version_utils::print_rust_versions();
 
+    // dependiendo de la versión de mysql
+    // libcrypto-3 tiene diferentes numeros al igual que
     // check_library("libcrypto-3-x64.dll");
-    let libraries = ["libcrypto-3-x64.dll", "libssl-3-x64.dll"];
-    check_libraries(&libraries);
+    // hacer el checkeo solo si mysql_version es mayor a la 8.0.17
+    // Check the MySQL version
+    if compare_versions(&mysql_version, "8.0.17") {
+        // If the MySQL version is greater than 8.0.17, check the libraries
+        let libraries = ["libcrypto-3-x64.dll", "libssl-3-x64.dll"];
+        check_libraries(&libraries);
+    } else {
+        println!("MySQL version is less than or equal to 8.0.17, skipping library checks.");
+    }
 
     unsafe {
         // Init MySQL
@@ -79,4 +89,19 @@ fn main() {
         // Close connection
         ffi::mysql_close(mysql);
     }
+}
+
+fn compare_versions(version1: &str, version2: &str) -> bool {
+    let v1_parts: Vec<u32> = version1.split('.').filter_map(|s| s.parse().ok()).collect();
+    let v2_parts: Vec<u32> = version2.split('.').filter_map(|s| s.parse().ok()).collect();
+
+    for (v1, v2) in v1_parts.iter().zip(v2_parts.iter()) {
+        if v1 > v2 {
+            return true;
+        } else if v1 < v2 {
+            return false;
+        }
+    }
+
+    v1_parts.len() > v2_parts.len()
 }
